@@ -14,13 +14,17 @@ export const useAuthStore = create(
 
       setAuth: (user, token) => {
         localStorage.setItem("token", token);
-        document.cookie = `token=${token}; path=/; max-age=${60 * 60 * 24 * 7}`;
+        document.cookie = `token=${token}; path=/; max-age=${
+          60 * 60 * 24 * 7
+        }; SameSite=Lax${
+          window.location.protocol === "https:" ? "; Secure" : ""
+        }`;
         set({ user, token });
       },
 
       logout: () => {
         localStorage.removeItem("token");
-        document.cookie = "token=; path=/; max-age=0";
+        document.cookie = "token=; path=/; max-age=0; SameSite=Lax";
         set({ user: null, token: null });
       },
 
