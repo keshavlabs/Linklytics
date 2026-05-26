@@ -4,12 +4,15 @@ const nextConfig = {
   transpilePackages: ["@repo/shared"],
 
   async rewrites() {
-    if (process.env.NODE_ENV === "production") return [];
-
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:3001/api/:path*",
+        destination: `${apiUrl}/:path*`,
+      },
+      {
+        source: "/:slug",
+        destination: `${apiUrl}/:slug`,
       },
     ];
   },
