@@ -4,14 +4,12 @@ const nextConfig = {
   transpilePackages: ["@repo/shared"],
 
   async rewrites() {
+    if (process.env.NODE_ENV === "production") return [];
+
     return [
       {
         source: "/api/:path*",
         destination: "http://localhost:3001/api/:path*",
-      },
-      {
-        source: "/:slug",
-        destination: "http://localhost:3001/:slug",
       },
     ];
   },
