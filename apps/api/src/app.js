@@ -14,7 +14,7 @@ export default async function buildApp(fastify) {
   await fastify.register(jwtPlugin);
   fastify.decorate("authenticate", authenticate);
 
-  await fastify.register(rateLimitPlugin);
+  // await fastify.register(rateLimitPlugin);
   fastify.get("/health", async () => ({ status: "ok", ts: Date.now() }));
 
   await fastify.register(routes);
