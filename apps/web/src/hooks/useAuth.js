@@ -19,7 +19,11 @@ export function useAuth() {
       router.replace("/dashboard");
     },
     onError: (err) => {
-      toast.error(err.response?.data?.error || "Login failed");
+      const data = err.response?.data;
+
+      toast.error(
+        data?.message || data?.error?.message || data?.error || "Login failed",
+      );
     },
   });
 
@@ -32,7 +36,14 @@ export function useAuth() {
       router.replace("/dashboard");
     },
     onError: (err) => {
-      toast.error(err.response?.data?.error || "Registration failed");
+      const data = err.response?.data;
+
+      toast.error(
+        data?.message ||
+          data?.error?.message ||
+          data?.error ||
+          "Registration failed",
+      );
     },
   });
 
