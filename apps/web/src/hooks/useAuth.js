@@ -16,7 +16,7 @@ export function useAuth() {
     onSuccess: ({ user, token }) => {
       setAuth(user, token);
       toast.success(`Welcome back, ${user.name}!`);
-      router.replace("/dashboard");
+      window.location.href = "/dashboard";
     },
     onError: (err) => {
       const data = err.response?.data;
@@ -33,7 +33,7 @@ export function useAuth() {
     onSuccess: ({ user, token }) => {
       setAuth(user, token);
       toast.success(`Welcome, ${user.name}!`);
-      router.replace("/dashboard");
+      window.location.href = "/dashboard";
     },
     onError: (err) => {
       const data = err.response?.data;
@@ -50,7 +50,7 @@ export function useAuth() {
   const logout = () => {
     storeLogout();
     qc.clear();
-    router.replace("/login");
+    window.location.href = "/login";
     toast.success("Logged out");
   };
 
