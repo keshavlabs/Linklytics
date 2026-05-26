@@ -8,8 +8,8 @@ import routes from "./routes/routes.js";
 import { authenticate } from "./middleware/authenticate.js";
 
 export default async function buildApp(fastify) {
-  await fastify.register(helmetPlugin);
   await fastify.register(corsPlugin);
+  await fastify.register(helmetPlugin);
 
   await fastify.register(formbody);
 
