@@ -13,7 +13,7 @@ export default async function buildApp(fastify) {
 
   await fastify.register(formbody);
 
-  await fastify.register(cookiePlugin);
+  // await fastify.register(cookiePlugin);
 
   await fastify.register(jwtPlugin);
   fastify.decorate("authenticate", authenticate);
