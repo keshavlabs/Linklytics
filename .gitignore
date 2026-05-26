@@ -1,0 +1,29 @@
+# dependencies
+node_modules
+
+# env files
+.env
+.env.local
+.env.production
+
+# next
+.next
+out
+
+# builds
+dist
+build
+coverage
+
+# prisma
+.prisma
+
+# turbo
+.turbo
+
+# logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+model User {
+  id    String     @id @default(cuid())
+  name  String
+  email String  @unique
+  password  String
+  emailVerified Boolean @default(false)
+  verifyToken String?
+  resetToken String?
+  resetTokenExpiry DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  links Link[]
+
+  @@map("users")
+}
+
+model Link {
+  id        String   @id @default(cuid())
+  slug String @unique
+  originalUrl String
+  title     String?
+  isActive    Boolean  @default(true)
+  expiresAt   DateTime?
+  clicks  Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt          
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analytics Analytics[]
+  qrCode QRCode?
+                    
+  @@index([slug])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("links")
+}
+
+model QRCode {
+  id String @id @default(uuid())
+  linkId String @unique
+  link Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  fgColor     String   @default("#000000")
+  bgColor     String   @default("#ffffff")
+  size        Int      @default(300)
+  format      String   @default("png")  // "png" | "svg"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Analytics {
+  id     String @id @default(cuid())
+  linkId String
+  link   Link   @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  ip        String?
+  country   String?
+  city      String?
+  device    String?
+  browser   String?
+  os        String?
+  referrer  String?
+  createdAt DateTime @default(now())
+  source    ClickSource @default(DIRECT)
+
+  @@index([linkId])
+  @@index([createdAt])
+  @@index([linkId, createdAt])
+  @@map("analytics")
+}
+
+enum ClickSource {
+  DIRECT
+  QR_CODE
+  API
+}

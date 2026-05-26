@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "allowJs": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "baseUrl": ".",
+    "paths": {
+      "@repo/shared/*": ["packages/shared/src/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
