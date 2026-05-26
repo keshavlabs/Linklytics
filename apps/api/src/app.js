@@ -9,7 +9,7 @@ import { authenticate } from "./middleware/authenticate.js";
 
 export default async function buildApp(fastify) {
   await fastify.register(corsPlugin);
-  await fastify.register(helmetPlugin);
+  // await fastify.register(helmetPlugin);
 
   await fastify.register(formbody);
 
