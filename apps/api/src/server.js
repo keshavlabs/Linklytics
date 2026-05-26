@@ -1,7 +1,6 @@
-// server.js
 import Fastify from "fastify";
-import cors from "@fastify/cors"; // ← add this
 import { env } from "./config/env.js";
+import cors from "../src/plugins/cors.js";
 import buildApp from "./app.js";
 import prisma from "../../api/src/prisma/client.js";
 
@@ -17,7 +16,6 @@ const fastify = Fastify({
 
 async function start() {
   try {
-    // Register CORS at the top level before anything else
     await fastify.register(cors, {
       origin: (origin, cb) => {
         const allowedOrigins = [
@@ -40,9 +38,26 @@ async function start() {
 
     await buildApp(fastify);
     await fastify.listen({ port: env.PORT, host: env.HOST });
+    fastify.log.info(`API running at http://${env.HOST}:${env.PORT}`);
   } catch (err) {
     fastify.log.error(err);
     await prisma.$disconnect();
     process.exit(1);
   }
 }
+
+const shutdown = async () => {
+  try {
+    await fastify.close();
+    await prisma.$disconnect();
+  } catch (err) {
+    fastify.log.error(err);
+  } finally {
+    process.exit(0);
+  }
+};
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
+
+start();
