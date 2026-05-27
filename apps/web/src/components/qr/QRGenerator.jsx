@@ -15,7 +15,8 @@ export default function QRGenerator() {
   const [size, setSize] = useState(256);
   const qrRef = useRef(null);
 
-  const url = customUrl || selectedLinkUrl || "https://Linklytics.io";
+  const url =
+    customUrl || selectedLinkUrl || `${process.env.NEXT_PUBLIC_APP_URL}/`;
 
   return (
     <div className="grid md:grid-cols-2 gap-8">
@@ -31,7 +32,10 @@ export default function QRGenerator() {
         >
           <option value="">— Choose a link —</option>
           {data?.links?.map((l) => (
-            <option key={l.id} value={l.shortUrl}>
+            <option
+              key={l.id}
+              value={`${process.env.NEXT_PUBLIC_APP_URL}/${l.slug}`}
+            >
               /{l.slug}
               {l.title ? ` — ${l.title}` : ""}
             </option>

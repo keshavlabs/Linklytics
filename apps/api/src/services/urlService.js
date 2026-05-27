@@ -36,7 +36,7 @@ export async function createShortLink(userId, data) {
 
 export async function resolveSlug(slug) {
   const cached = await redis.get(`slug: ${slug}`);
-  if (cached) return JSON.parse(cached);
+  if (cached) return cached;
 
   const link = await prisma.link.findFirst({
     where: {
@@ -48,7 +48,7 @@ export async function resolveSlug(slug) {
 
   if (!link) return null;
   if (link.expiresAt && new Date(link.expiresAt) < new Date()) return null;
-  await redis.setex(`slug: ${slug}`, CACHE_TTL, JSON.stringify(link));
+  await redis.set(`slug: ${slug}`, link, { ex: CACHE_TTL });
   return link;
 }
 
