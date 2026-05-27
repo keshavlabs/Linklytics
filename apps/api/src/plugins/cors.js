@@ -1,6 +1,7 @@
 import cors from "@fastify/cors";
+import fp from "fastify-plugin";
 
-export default async function corsPlugin(fastify) {
+async function corsPlugin(fastify) {
   await fastify.register(cors, {
     origin: (origin, cb) => {
       const allowedOrigins = [
@@ -22,3 +23,5 @@ export default async function corsPlugin(fastify) {
     optionsSuccessStatus: 204,
   });
 }
+
+export default fp(corsPlugin);

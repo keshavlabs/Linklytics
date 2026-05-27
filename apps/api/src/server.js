@@ -16,26 +16,8 @@ const fastify = Fastify({
 
 async function start() {
   try {
-    await fastify.register(cors, {
-      origin: (origin, cb) => {
-        const allowedOrigins = [
-          "http://localhost:3000",
-          "http://127.0.0.1:3000",
-          "https://linklytics-web.vercel.app",
-        ];
-        if (!origin || allowedOrigins.includes(origin)) {
-          cb(null, true);
-        } else {
-          cb(new Error(`Origin ${origin} not allowed`), false);
-        }
-      },
-      credentials: true,
-      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
-      preflightContinue: false,
-      optionsSuccessStatus: 204,
-    });
-
+    await prisma.$connect();
+    fastify.log.info("Database connected");
     await buildApp(fastify);
     await fastify.listen({ port: env.PORT, host: env.HOST });
     fastify.log.info(`API running at http://${env.HOST}:${env.PORT}`);
