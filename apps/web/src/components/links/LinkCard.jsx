@@ -20,9 +20,14 @@ export default function LinkCard({ link }) {
             <p className="text-sm font-medium text-white mb-1">{link.title}</p>
           )}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mono text-blue-400 text-sm">
+            <a
+              href={shortUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-blue-400 text-sm hover:text-blue-300 hover:underline transition-colors"
+            >
               {appUrl}/{link.slug}
-            </span>
+            </a>
             <CopyButton text={shortUrl} />
             {!link.isActive && (
               <span className="text-xs bg-red-400/10 text-red-400 border border-red-400/20 px-1.5 py-0.5 rounded">
