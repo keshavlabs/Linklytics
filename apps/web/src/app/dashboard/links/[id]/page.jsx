@@ -18,7 +18,7 @@ export default function LinkAnalyticsPage({ params }) {
   const { data, isLoading } = useLinkAnalytics(id, days);
 
   const shortUrl = data?.link
-    ? `${process.env.NEXT_PUBLIC_API_URL}/${data.link.slug}`
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/${data.link.slug}`
     : "";
 
   return (
@@ -37,7 +37,7 @@ export default function LinkAnalyticsPage({ params }) {
           {data?.link && (
             <div className="flex items-center gap-2 mt-1">
               <span className="font-mono text-brand-400 text-sm">
-                lnkly.io/{data.link.slug}
+                {process.env.NEXT_PUBLIC_APP_URL}/{data.link.slug}
               </span>
               <CopyButton text={shortUrl} />
             </div>

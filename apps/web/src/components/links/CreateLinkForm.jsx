@@ -67,7 +67,9 @@ export default function CreateLinkForm({ onSuccess }) {
         <div>
           <label className="label">Custom slug (optional)</label>
           <div className="flex items-center gap-1">
-            <span className="text-gray-500 text-sm">lnkly.io/</span>
+            <span className="text-gray-500 text-sm">
+              {process.env.NEXT_PUBLIC_APP_URL}/
+            </span>
             <input
               className="input flex-1"
               placeholder="my-link"

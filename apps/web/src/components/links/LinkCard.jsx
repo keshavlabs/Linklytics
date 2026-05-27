@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import { formatDistance } from "date-fns";
-import { truncate, getDomain, formatNumber } from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 import CopyButton from "./CopyButton";
 import { useDeleteLink, useUpdateLink } from "@/hooks/useLinks";
 
 export default function LinkCard({ link }) {
   const deleteLink = useDeleteLink();
   const updateLink = useUpdateLink();
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-  const shortUrl = `${apiUrl}/${link.slug}`;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+  const shortUrl = `${appUrl}/${link.slug}`;
 
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-700 transition-colors">
@@ -21,7 +21,7 @@ export default function LinkCard({ link }) {
           )}
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-mono text-blue-400 text-sm">
-              localhost:3001/{link.slug}
+              {appUrl}/{link.slug}
             </span>
             <CopyButton text={shortUrl} />
             {!link.isActive && (
