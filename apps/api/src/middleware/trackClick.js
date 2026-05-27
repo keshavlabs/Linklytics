@@ -5,7 +5,12 @@ import prisma from "../prisma/client.js";
 export async function trackClick(linkId, req) {
   try {
     const ua = UAParser(req.headers["user-agent"] || "");
-    const ip = req.ip === "::1" ? "127.0.0.1" : req.ip;
+    const forwarded = req.headers["x-forwarded-for"];
+    const ip = forwarded
+      ? forwarded.split(",")[0].trim()
+      : req.ip === "::1"
+        ? "127.0.0.1"
+        : req.ip;
     const geo = geoip.lookup(ip);
 
     await prisma.analytics.create({
@@ -17,7 +22,7 @@ export async function trackClick(linkId, req) {
         device: ua.device?.type || "desktop",
         browser: ua.browser?.name || null,
         os: ua.os?.name || null,
-        referrer: req.headers.referrer || null,
+        referrer: req.headers.referer || req.headers.referrer || null,
       },
     });
 
